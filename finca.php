@@ -42,10 +42,32 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Compra
+              Costos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="finca.php?action=compra">Nueva Compra</a>
+              <a class="dropdown-item" href="finca.php?action=compra">Nueva Costo</a>
+              <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Despacho
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="finca.php?action=despacho">Nuevo Despacho</a>
+              <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li> -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Menu
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="finca.php?action=menu">Nuevo Menu</a>
               <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
@@ -53,10 +75,10 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Despacho
+              Comedor
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="finca.php?action=compra">Nuevo Despacho</a>
+              <a class="dropdown-item" href="finca.php?action=comedor">Nuevo Comedor</a>
               <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
@@ -96,6 +118,19 @@
               <a class="dropdown-item" href="#">Consultar</a>
             </div>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Reportes
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="finca.php?action=reporte_comedor">Comedor</a>
+              <a class="dropdown-item" href="finca.php?action=reporte_centro_costos">Centro de Costos</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item disabled" href="#">Tasas</a>
+              <a class="dropdown-item" href="#" onclick="showTasaCambioModal()">Nueva Tasa de Cambio</a>
+              <a class="dropdown-item" href="#">Consultar</a>
+            </div>
+          </li>
         </ul>
         <!-- <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -111,13 +146,43 @@
         <!-- <h1>Bootstrap starter template</h1>
         <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p> -->
         <?php
-          if (isset($_GET["action"]) && $_GET["action"] == "compra"){
-            include_once "compra.php"; 
+          /*if (isset($_GET["action"]) && $_GET["action"] == "compra"){
+            include_once "compra.php";
           };
         
           if (isset($_GET["action"]) && $_GET["action"] == "listacompra"){
             include_once "listacompra.php"; 
           };
+
+          if (isset($_GET["action"]) && $_GET["action"] == "despacho"){
+            include_once "listacompra.php"; 
+          };*/
+
+          if (isset($_GET["action"])){
+            switch ($_GET["action"]) {
+              case "compra":  
+                include_once "compra.php";
+              break;
+              case "listacompra":  
+                include_once "listacompra.php"; 
+              break;
+              case "despacho":  
+                include_once "despacho.php"; 
+              break;
+              case "menu":  
+                include_once "menu.php"; 
+              break;
+              case "comedor":  
+                include_once "comedor.php"; 
+              break;
+              case "reporte_comedor":  
+                include_once "reporte_comedor.php"; 
+              break;
+              case "reporte_centro_costos":
+              include_once "reporte_centro_costos.php"; 
+              break;
+            }
+          }
         ?>
       </div>
 
@@ -150,6 +215,8 @@
                 <option selected>Seleccione...</option>
               </select>
             </div>
+            <label for="prodLabel">Cantidad por persona</label>
+            <input type="text" class="form-control" id="cant_percapita" placeholder="Ingrese de Producto por persona">
           </div>
           </div>
           <div class="modal-footer">
@@ -348,19 +415,19 @@
           <div class="modal-body">
           <div class="form-group">
             <label for="prodLabel">Nombre</label>
-            <input type="text" class="form-control" id="moneda_nomb" placeholder="Ingrese Tipo de Empaque" required>            
+            <input type="text" class="form-control" id="unidad_nomb" placeholder="Nombre Unidad de Produccion" required>            
           </div>
           <div class="form-group">
             <label for="prodLabel"># Empleados</label>
-            <input type="text" class="form-control" id="moneda_nomb" placeholder="Ingrese Tipo de Empaque" required>            
+            <input type="text" class="form-control" id="unidad_empleados" placeholder="# Empleados" required>            
           </div>
           <div class="form-group">
             <label for="prodLabel">Notas</label>
-            <input type="text" class="form-control" id="moneda_nomb" placeholder="Ingrese Tipo de Empaque" required>            
+            <input type="text" class="form-control" id="unidad_descripcion" placeholder="Notas" required>            
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" onclick="createMoneda()">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick="createUnidad()">Guardar</button>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 
-<h1>Compra</h1>
+<h1>Costo</h1>
 <form id="compraform" >
 <div class="form-group">
   <table class="table">

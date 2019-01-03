@@ -52,7 +52,7 @@ function showNotify(messagePar,typePar){
 	}
 }
 
-function getCategorias(){
+function getCategorias(id){
     $.ajax({
         method: "POST",
         url: 'process/process.php',
@@ -63,7 +63,7 @@ function getCategorias(){
       })
         .done(function( e ) {
             
-                $("#categorias").html('<option value="1">'+e+'</option>');
+                $("#"+id).html(e);
            
         });
 }
@@ -230,7 +230,7 @@ function createProd(){
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
-                data:{action: 'createProd',prod_name:$("#prod_name").val(),producto_categoria:$("#producto_categoria").val(),producto_empaque:$("#producto_empaque").val(),prod_desc:$("#prod_desc").val()},
+                data:{action: 'createProd',prod_name:$("#prod_name").val(),producto_categoria:$("#producto_categoria").val(),producto_empaque:$("#producto_empaque").val(),prod_desc:$("#prod_desc").val(),cant_percapita:$("#cant_percapita").val()},
                 cache: false,
                 async: true,
                 type: 'POST'
@@ -446,6 +446,265 @@ function createTasaCambio(){
         });
 }
 
+function createUnidad(){
+        if($("#unidad_nomb").val() == ""){
+                showNotify("Nombre de la unidad es obligatorio","danger");
+                return false;
+        }
+        if($("#unidad_empleados").val()==""){
+                showNotify("Numeros de empleados es obligatorio","danger");
+                return false;
+        }
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'createUnidad',unidad_nomb:$("#unidad_nomb").val(),unidad_empleados:$("#unidad_empleados").val(),unidad_descripcion:$("#unidad_descripcion").val()},
+                cache: false,
+                async: true,
+                type: 'POST'
+                })
+                .done(function( e ) {
+                console.log(e);
+                        if(e != 'Error'){
+                        showNotify("Nueva unidad fue creada","success");
+                        $("#nueva_unidad").modal('hide');
+                } 
+        });
+        $("#category_nomb").val('');
+        $("#tipo_empaque").val('');
+}
+
+function getUnidadProd(id){
+        $.ajax({
+            method: "POST",
+            url: 'process/process.php',
+            data:{action: 'getUnidadProd'},
+            cache: false,
+            async: true,
+            type: 'POST'
+          })
+            .done(function( e ) {
+                
+                    $("#"+id).html(e);
+               
+            });
+}
+function getCompras(id){
+        $.ajax({
+            method: "POST",
+            url: 'process/process.php',
+            data:{action: 'getCompras'},
+            cache: false,
+            async: true,
+            type: 'POST'
+          })
+            .done(function( e ) {
+                
+                    $("#"+id).html(e);
+               
+            });
+}
+
+function showdetallecomp(id){
+        var unidad_prod = $("#unidad_prod option:selected").val();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'showdetallecomp', id: id, unidad_prod:unidad_prod},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                    
+                        $("#detalle_despacho").html(e);
+                   
+                });
+}
+
+function getDetalleProducto(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getDetalleProducto',id:id},
+                cache: false,
+                async: true,
+                type: 'POST'
+        })
+        .done(function( e ) {
+                var objJson = $.parseJSON(e);
+                //console.log(objJson[0].id);
+                $(".cant_percapita").html(parseFloat(objJson[0].cant_percapita).toFixed(2));
+                $(".subt_eventos").html(parseFloat( objJson[0].cant_percapita*$(".cant_eventos option:selected").val() ).toFixed(2) );
+                /*$("#subt_costo").html(parseFloat(objJson[0].precio_unitario).toFixed(2));
+                $("#comensales").html(objJson[0].total_comensales);                
+                $("#tot_compra").html(parseFloat(objJson[0].total_comensales*objJson[0].cant_percapita*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
+                $("#total_costo").html(parseFloat(objJson[0].total_comensales*objJson[0].cant_percapita*$("select[class='cant_eventos'] option:selected").val()*parseFloat(objJson[0].precio_unitario)).toFixed(2));*/
+                
+        });
+}
+
+function refreshSubEventos(){
+        //$(".cant_percapita").html(parseFloat(objJson[0].cant_percapita).toFixed(2));
+        $(".subt_eventos").html(parseFloat($(".cant_percapita").html()*$(".cant_eventos option:selected").val()).toFixed(2));
+        /*$("#subt_eventos").html(parseFloat($(".cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
+        $("#tot_compra").html(parseFloat($("#comensales").html())*parseFloat($("#cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
+        $("#total_costo").html(parseFloat($("#comensales").html())*parseFloat($("#cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()*parseFloat($("#subt_costo").html()).toFixed(2)));*/
+}
+
+function addMenuRow(){
+        $.ajax({
+            method: "POST",
+            url: 'process/process.php',
+            data:{action: 'addMenuRow'},
+            cache: false,
+            async: true,
+            type: 'POST'
+          })
+            .done(function( e ) {
+                    $(".products").removeClass("products");
+                    $(".cant_percapita").removeClass("cant_percapita");
+                    $(".subt_eventos").removeClass("subt_eventos");
+                    $(".cant_eventos").removeClass("cant_eventos");
+
+                    $("#detalle_menu").append(e);
+                    getProductos("products");
+               
+            });
+}
+
+function createMenu(){
+        var compraObj = $("#menuform").serializeArray();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'createMenu',compraObj:JSON.stringify(compraObj)},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      console.log(e);
+                   
+                   
+                }); 
+}
+
+function getEmpleadosComedor(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getEmpleados',id:id},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);   
+                        var options="";
+                        for(i=1;i<=objJson[0]['empleados'];i++){
+                                options=options+"<option value='"+i+"'>"+i+"</option>";
+                        }
+                        $("#cant_empleados").html(options);
+                }); 
+}
+
+
+function addUnidadRow(){
+        $.ajax({
+            method: "POST",
+            url: 'process/process.php',
+            data:{action: 'addUnidadRow'},
+            cache: false,
+            async: true,
+            type: 'POST'
+          })
+            .done(function( e ) {
+                    /*$(".products").removeClass("products");
+                    $(".cant_percapita").removeClass("cant_percapita");
+                    $(".subt_eventos").removeClass("subt_eventos");
+                    $(".cant_eventos").removeClass("cant_eventos");*/
+                    $(".unidadprod").removeAttr('id');
+                    $(".cant_empleados").removeAttr('id');
+                    $("#unidades_comedor").append(e);
+                    getUnidadProd('unidad_prod');
+                    //getProductos("products");
+               
+            });
+}
+
+function createComedor(){
+        var compraObj = $("#comedorform").serializeArray();
+        console.log(compraObj);
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'createComedor',compraObj:JSON.stringify(compraObj)},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      console.log(e);
+                   
+                   
+                }); 
+}
+
+function getComedor(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getComedor'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);   
+                        console.log(objJson.length);
+                        var options="<option value=''>Seleccione Comedor</option>";
+                        for(i=0;i<objJson.length;i++){
+                                options=options+"<option value='"+objJson[i]['id']+"'>"+objJson[i]['nombre']+"</option>";
+                        }
+                        $("#"+id).html(options);
+                }); 
+}
+
+function generarReporteComedor(){
+        var id = $("#comedor_id option:selected").val();
+        var id_compra = $("#compra option:selected").val();
+        $(".detallerepcomedor").remove();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'generarReporteComedor',id: id, id_compra: id_compra},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        $("#reporte").append(e);
+                        $("#reporte").show();
+                }); 
+}
+
+function generarReporteCentroCostos(){
+        $(".detallerepcentrocostos").remove();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'generarReporteCentroCostos', id: $("#categoria_id option:selected").val()},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        $("#reporte_centro_costos").append(e);
+                        $("#reporte_centro_costos").show();
+                }); 
+}
+
 $(document).ready(function($) {
         if($(".products")){
                 getProductos("products");
@@ -453,6 +712,17 @@ $(document).ready(function($) {
         }
         if($("#detalle_lista")){
                 getListaCompra();
+        }
+        if($("#unidad_prod")){
+                getUnidadProd('unidad_prod');
+                getCompras('compra_id');
+        }
+        if($("#comedor_id")){
+                getComedor('comedor_id');
+                getCompras('compra_id')
+        }
+        if($("#categoria_id")){
+                getCategorias('categoria_id');
         }
 });
 
