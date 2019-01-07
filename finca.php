@@ -45,7 +45,8 @@
               Costos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="finca.php?action=compra">Nueva Costo</a>
+              <a class="dropdown-item" href="finca.php?action=compra">Nuevo Costo Productos</a>
+              <a class="dropdown-item" href="javascript: void(0);" onclick="$('#nuevo_costo_unidad').modal('show')">Nuevo Costo Unidad</a>
               <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
@@ -428,6 +429,34 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary" onclick="createUnidad()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal Nuevo Costo Unidad -->
+    <div id="nuevo_costo_unidad" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Nuevo Costo de Unidad de Produccion</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          <div class="form-group">
+            <label for="prodLabel">Unidad de Produccion</label>
+            <select class="custom-select unidadprod" name="unidadprodid" id="unidadprodid"></select>           
+          </div>
+          <div class="form-group">
+            <label for="prodLabel">Costo Nomina</label>
+            <input type="text" class="form-control" id="costo_nomina" placeholder="# Empleados" required>            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="crearCostoNomina()">Guardar</button>
           </div>
         </div>
       </div>

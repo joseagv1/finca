@@ -705,6 +705,34 @@ function generarReporteCentroCostos(){
                 }); 
 }
 
+function crearCostoNomina(){
+        if($("#unidadprodid option:selected").val() == ""){
+                showNotify("Seleccione una unidad de produccion","danger");
+                return false;
+        }
+        if($("#costo_nomina").val()==""){
+                showNotify("Ingrese un costo","danger");
+                return false;
+        }
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'crearCostoNomina',unidadid:$("#unidadprodid option:selected").val(),costo:$("#costo_nomina").val()},
+                cache: false,
+                async: true,
+                type: 'POST'
+                })
+                .done(function( e ) {
+                console.log(e);
+                        if(e != 'Error'){
+                        showNotify("Nuevo costo por unidad fue creado","success");
+                        $("#nuevo_costo_unidad").modal('hide');
+                } 
+        });
+        $("#unidadprodid").val('');
+        $("#costo_nomina").val('');
+}
+
 $(document).ready(function($) {
         if($(".products")){
                 getProductos("products");
@@ -723,6 +751,9 @@ $(document).ready(function($) {
         }
         if($("#categoria_id")){
                 getCategorias('categoria_id');
+        }
+        if($("#unidadprodid")){
+                getUnidadProd('unidadprodid');
         }
 });
 

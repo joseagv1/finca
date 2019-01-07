@@ -1,6 +1,18 @@
 <h1>Menu</h1>
 <form id="menuform" >
 <div class="form-group">
+  <table class="table">
+      <tr>
+        <td>
+          <div class="input-group mb-3">
+            <select class="custom-select" name="comedor_id" id="comedor_id"></select>
+          </div>
+        </td>
+        <td>
+          <input type="date" class="form-control" name="fecha_menu"  required>
+        </td>
+      </tr>
+  </table>
   <table class="table" id="detalle_menu">
     <thead class="thead-dark"">
       <tr>
@@ -12,12 +24,12 @@
     </thead>
     <tbody>
       <tr>
-        <th scope="row">
+        <td scope="row">
           <div class="input-group mb-3">
             <select class="custom-select products" name="productoid" onchange="getDetalleProducto(this.value)">
             </select>
           </div>
-        </th>        
+        </td>        
         <td><span class="cant_percapita" id="cant_percapita" name="cant_percapita"></span><input type="hidden" class="cant_percapita" value=""></td>
         <td>
             <div class="input-group mb-3">
