@@ -260,9 +260,26 @@ function getProductos(id){
             .done(function( e ) {
                 
                     $("."+id).html(e);
-                    $("."+id).removeClass( "newprod" );
+                    $("."+id).removeClass( id );
                
             });
+}
+
+function menuRows(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'menuRows'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      
+                    $("#detalle_menu").append(e);
+                    //getProductos("newprod");
+                   
+                });
 }
 
 function addcompraRow(){
@@ -276,10 +293,49 @@ function addcompraRow(){
           })
             .done(function( e ) {
                   
-                    $("#detalle_compra").append(e);
-                    getProductos("newprod");
+                $("#detalle_compra").append(e);
+                getProductos("newprod");
                
             });
+}
+
+function compraRows(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'compraRows'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      
+                    $("#detalle_compra").append(e);
+                        //getProductos("newprod",prodid);
+                   
+                });
+}
+
+function cargarListaProductos(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaProductos'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+        .done(function( e ) {
+                var objJson = $.parseJSON(e);
+                //console.log(objJson);
+                for(i=0;i<objJson.length;i++){
+                        
+                        addcompraRow(objJson[i].id); 
+                        //getProductos("newprod",objJson[i].id);
+                }
+                
+        });
+        
 }
 
 function createCompra(){
@@ -544,9 +600,9 @@ function getDetalleProducto(id){
         });
 }
 
-function refreshSubEventos(){
+function refreshSubEventos(id){
         //$(".cant_percapita").html(parseFloat(objJson[0].cant_percapita).toFixed(2));
-        $(".subt_eventos").html(parseFloat($(".cant_percapita").html()*$(".cant_eventos option:selected").val()).toFixed(2));
+        $(".subt_eventos"+id).html(parseFloat($(".cant_percapita"+id).html()*$(".cant_eventos"+id+" option:selected").val()).toFixed(2));
         /*$("#subt_eventos").html(parseFloat($(".cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
         $("#tot_compra").html(parseFloat($("#comensales").html())*parseFloat($("#cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
         $("#total_costo").html(parseFloat($("#comensales").html())*parseFloat($("#cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()*parseFloat($("#subt_costo").html()).toFixed(2)));*/
@@ -734,26 +790,31 @@ function crearCostoNomina(){
 }
 
 $(document).ready(function($) {
-        if($(".products")){
-                getProductos("products");
+        if($("#comprapage").length>0){
+                //getProductos("products");
+                compraRows();
                 getMoneda("select_moneda");
+                //cargarListaProductos();
         }
-        if($("#detalle_lista")){
+        if($("#detalle_lista").length>0){
                 getListaCompra();
         }
-        if($("#unidad_prod")){
+        if($("#unidad_prod").length>0){
                 getUnidadProd('unidad_prod');
                 getCompras('compra_id');
         }
-        if($("#comedor_id")){
+        if($("#comedor_id").length>0){
                 getComedor('comedor_id');
                 getCompras('compra_id')
         }
-        if($("#categoria_id")){
+        if($("#categoria_id").length>0){
                 getCategorias('categoria_id');
         }
-        if($("#unidadprodid")){
+        if($("#unidadprodid").length>0){
                 getUnidadProd('unidadprodid');
+        }
+        if($("#menupage").length>0){
+                menuRows();
         }
 });
 

@@ -41,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <!-- <tr>
         <th scope="row">
           <div class="input-group mb-3">
             <select class="custom-select products" name="productoid">
@@ -50,10 +50,11 @@
         </th>
         <td><input type="text" class="form-control cant_prod" name="cant_prod"  required></td>
         <td><input type="text" class="form-control precio_prod" name="precio_prod" required> </td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
-  <div  style="text-align:left; float:left;"><a href="javascript:void(0);" onclick="addcompraRow()" class="addlinkprod"> <span class="oi oi-plus" title="plus" aria-hidden="true"></span></a></div>
+  <div  style="text-align:left; float:left;"><a href="javascript:void(0);" onclick="addcompraRow(0)" class="addlinkprod"> <span class="oi oi-plus" title="plus" aria-hidden="true"></span></a></div>
   <div  style="text-align:right; float:right;"><button type="button" class="btn btn-primary" onclick="createCompra()">Guardar</button></div>
+  <input type="hidden" id="comprapage" name="comprapage" value="">
 </div>
 </form>
