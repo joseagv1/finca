@@ -602,7 +602,7 @@ function getDetalleProducto(id){
 
 function refreshSubEventos(id){
         //$(".cant_percapita").html(parseFloat(objJson[0].cant_percapita).toFixed(2));
-        $(".subt_eventos"+id).html(parseFloat($(".cant_percapita"+id).html()*$(".cant_eventos"+id+" option:selected").val()).toFixed(2));
+        $(".subt_eventos"+id).html(parseFloat($(".cant_percapita"+id).html()*$(".cant_eventos"+id+"").val()).toFixed(2));
         /*$("#subt_eventos").html(parseFloat($(".cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
         $("#tot_compra").html(parseFloat($("#comensales").html())*parseFloat($("#cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()).toFixed(2));
         $("#total_costo").html(parseFloat($("#comensales").html())*parseFloat($("#cant_percapita").html()*$("select[class='cant_eventos'] option:selected").val()*parseFloat($("#subt_costo").html()).toFixed(2)));*/
@@ -730,11 +730,12 @@ function getComedor(id){
 function generarReporteComedor(){
         var id = $("#comedor_id option:selected").val();
         var id_compra = $("#compra option:selected").val();
+        var fecha_compra = $("#dia_compra option:selected").val();
         $(".detallerepcomedor").remove();
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
-                data:{action: 'generarReporteComedor',id: id, id_compra: id_compra},
+                data:{action: 'generarReporteComedor',id: id, id_compra: id_compra,fecha_compra:fecha_compra},
                 cache: false,
                 async: true,
                 type: 'POST'
@@ -747,10 +748,11 @@ function generarReporteComedor(){
 
 function generarReporteCentroCostos(){
         $(".detallerepcentrocostos").remove();
+        var fecha_compra = $("#dia_compra option:selected").val();
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
-                data:{action: 'generarReporteCentroCostos', id: $("#categoria_id option:selected").val()},
+                data:{action: 'generarReporteCentroCostos', id: $("#categoria_id option:selected").val(),fecha_compra:fecha_compra},
                 cache: false,
                 async: true,
                 type: 'POST'
@@ -758,6 +760,22 @@ function generarReporteCentroCostos(){
                 .done(function( e ) {
                         $("#reporte_centro_costos").append(e);
                         $("#reporte_centro_costos").show();
+                }); 
+}
+
+function generarReporteCompras(){
+        $(".detallerepcomedor").remove();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'generarReporteCompras'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        $("#reporte").append(e);
+                        $("#reporte").show();
                 }); 
 }
 
@@ -789,6 +807,26 @@ function crearCostoNomina(){
         $("#costo_nomina").val('');
 }
 
+function getDiasCompras(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaCompras'},
+                cache: false,
+                async: true,
+                type: 'POST'
+                })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);   
+                        //console.log(objJson.length);
+                        var options="<option value=''>Ultimo</option>";
+                        for(i=0;i<objJson.length;i++){
+                                options=options+"<option value='"+objJson[i]['fecha']+"'>"+objJson[i]['fecha']+"</option>";
+                        }
+                        $("#dia_compra").html(options);
+        }); 
+}
+
 $(document).ready(function($) {
         if($("#comprapage").length>0){
                 //getProductos("products");
@@ -796,7 +834,7 @@ $(document).ready(function($) {
                 getMoneda("select_moneda");
                 //cargarListaProductos();
         }
-        if($("#detalle_lista").length>0){
+        if($("#lista_compra").length>0){
                 getListaCompra();
         }
         if($("#unidad_prod").length>0){
@@ -815,6 +853,9 @@ $(document).ready(function($) {
         }
         if($("#menupage").length>0){
                 menuRows();
+        }
+        if($("#dia_compra").length > 0 ){
+                getDiasCompras();
         }
 });
 

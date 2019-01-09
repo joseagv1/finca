@@ -5,6 +5,9 @@
         <select class="custom-select" name="categoria_id" id="categoria_id"></select>
         </td>  
       </tr>
+      <tr>
+        <td><select class="custom-select dia_compra" name="dia_compra" id="dia_compra"></select></td>
+      </tr>
       <!-- <tr>
         <td>
         <select class="custom-select" name="compra_id" id="compra_id"></select>

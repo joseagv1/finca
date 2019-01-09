@@ -126,10 +126,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="finca.php?action=reporte_comedor">Comedor</a>
               <a class="dropdown-item" href="finca.php?action=reporte_centro_costos">Centro de Costos</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item disabled" href="#">Tasas</a>
-              <a class="dropdown-item" href="#" onclick="showTasaCambioModal()">Nueva Tasa de Cambio</a>
-              <a class="dropdown-item" href="#">Consultar</a>
+              <a class="dropdown-item" href="finca.php?action=reporte_compras">Compras</a>
             </div>
           </li>
         </ul>
@@ -181,6 +178,9 @@
               break;
               case "reporte_centro_costos":
               include_once "reporte_centro_costos.php"; 
+              break;
+              case "reporte_compras":
+              include_once "reporte_compras.php"; 
               break;
             }
           }
