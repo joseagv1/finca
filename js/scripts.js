@@ -768,7 +768,7 @@ function generarReporteCompras(){
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
-                data:{action: 'generarReporteCompras'},
+                data:{action: 'generarReporteCompras', idcomedor:$("#comedor_id option:selected").val()},
                 cache: false,
                 async: true,
                 type: 'POST'
@@ -827,6 +827,72 @@ function getDiasCompras(){
         }); 
 }
 
+function getListaUnidad(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaUnidad'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+        .done(function( e ) {
+                $("#lista_unidad").html(e);
+                /*var objJson = $.parseJSON(e);
+                //console.log(objJson);
+                for(i=0;i<objJson.length;i++){
+                        $("#lista_unidad").html(e);
+                        //addcompraRow(objJson[i].id); 
+                        //getProductos("newprod",objJson[i].id);
+                }*/
+                
+        });
+}
+
+function getListaCostoUnidad(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaCostoUnidad'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+        .done(function( e ) {
+                $("#lista_costo_unidad").html(e);
+                /*var objJson = $.parseJSON(e);
+                //console.log(objJson);
+                for(i=0;i<objJson.length;i++){
+                        $("#lista_unidad").html(e);
+                        //addcompraRow(objJson[i].id); 
+                        //getProductos("newprod",objJson[i].id);
+                }*/
+                
+        });
+}
+
+function getListaMenu(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaMenu'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+        .done(function( e ) {
+                $("#lista_menu").html(e);
+                /*var objJson = $.parseJSON(e);
+                //console.log(objJson);
+                for(i=0;i<objJson.length;i++){
+                        $("#lista_unidad").html(e);
+                        //addcompraRow(objJson[i].id); 
+                        //getProductos("newprod",objJson[i].id);
+                }*/
+                
+        });
+}
+
 $(document).ready(function($) {
         if($("#comprapage").length>0){
                 //getProductos("products");
@@ -856,6 +922,15 @@ $(document).ready(function($) {
         }
         if($("#dia_compra").length > 0 ){
                 getDiasCompras();
+        }
+        if($("#lista_unidad").length > 0 ){
+                getListaUnidad();
+        }
+        if($("#lista_costo_unidad").length > 0){
+                getListaCostoUnidad();
+        }
+        if($("#lista_menu").length > 0){
+                getListaMenu();
         }
 });
 

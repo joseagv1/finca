@@ -9,7 +9,7 @@
           </div>
         </td>
         <td>
-          <input type="date" class="form-control" name="fecha_menu"  required>
+          <input type="hidden " class="form-control" name="fecha_menu"  required>
         </td>
       </tr>
   </table>

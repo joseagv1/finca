@@ -11,7 +11,7 @@
         </td>  
       </tr> -->
   </table>
-  <div  style="text-align:center; float:center;margin-bottom: 30px;"><button type="button" class="btn btn-primary" onclick="generarReporteComedor()">Generar</button></div>
+  <div  style="text-align:center; float:center;margin-bottom: 30px;"><button type="button" class="btn btn-primary" onclick="generarReporteCompras()">Generar</button></div>
   
   <table class="table" id="reporte" style="display:none;">
     <thead class="thead-dark"">

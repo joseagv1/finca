@@ -18,10 +18,10 @@
         <td><input type="text" class="form-control" name="forma_fact" placeholder="Ingrese Forma de pago" required></td>
         <td><input type="text" class="form-control" name="nota_fact" placeholder="Ingrese Nota" required></td>
       </tr>
-      <tr>
+      <!-- <tr>
         <td colspan="2"><select class="custom-select" name="select_moneda" id="select_moneda" onchange="getTasa('select_moneda','tasa_compra')"></select></td>
         <td colspan="2"><select class="custom-select" name="tasa_compra" id="tasa_compra"><option>Seleccione tasa</option></select></td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
   <!-- <table class="table">

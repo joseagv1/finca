@@ -35,18 +35,18 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" onclick="$('#nueva_unidad').modal('show');">Crear</a>
-              <a class="dropdown-item" href="#">Consultar</a>
+              <a class="dropdown-item" href="finca.php?action=listaunidad">Consultar</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="javascript: void(0);" onclick="$('#nuevo_costo_unidad').modal('show')">Nuevo Costo Unidad</a>              
+              <a class="dropdown-item" href="finca.php?action=listaCostoUnidad">Consultar</a>
             </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Costos
+              Compras
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="finca.php?action=compra">Nuevo Costo Productos</a>
-              <a class="dropdown-item" href="javascript: void(0);" onclick="$('#nuevo_costo_unidad').modal('show')">Nuevo Costo Unidad</a>
+              <a class="dropdown-item" href="finca.php?action=compra">Nueva Compra</a>              
               <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
@@ -69,7 +69,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="finca.php?action=menu">Nuevo Menu</a>
-              <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
+              <a class="dropdown-item" href="finca.php?action=listamenu">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
@@ -164,6 +164,9 @@
               case "listacompra":  
                 include_once "listacompra.php"; 
               break;
+              case "listaunidad":  
+                include_once "listaunidad.php"; 
+              break;
               case "despacho":  
                 include_once "despacho.php"; 
               break;
@@ -181,6 +184,12 @@
               break;
               case "reporte_compras":
               include_once "reporte_compras.php"; 
+              break;
+              case "listaCostoUnidad":
+              include_once "listacostounidad.php"; 
+              break;
+              case "listamenu":
+              include_once "listamenu.php"; 
               break;
             }
           }
