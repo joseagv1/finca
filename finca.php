@@ -87,7 +87,7 @@
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Porductos
+              Productos
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item disabled" href="#">Productos</a>
@@ -97,12 +97,12 @@
               <a class="dropdown-item disabled" href="#">Categorias</a>
               <a class="dropdown-item" href="#" onclick="showcategoriamodal()">Nueva Categoria</a>
               <a class="dropdown-item" href="#">Consultar</a>
-              <div class="dropdown-divider"></div>
+              <!-- <div class="dropdown-divider"></div>
               <a class="dropdown-item disabled" href="#">Empaque</a>
               <a class="dropdown-item" href="#" onclick="showempaquemodal()">Nuevo Empaque</a>
               <a class="dropdown-item" href="#">Consultar</a>
               <a class="dropdown-item" href="#" onclick="$('#nuevo_tipo_empa').modal('show');">Nueva Tipo Empaque</a>
-              <a class="dropdown-item" href="#">Consultar</a>
+              <a class="dropdown-item" href="#">Consultar</a> -->
             </div>
           </li>
           <li class="nav-item dropdown">

@@ -349,7 +349,7 @@ function createCompra(){
                 type: 'POST'
               })
                 .done(function( e ) {
-                      
+                      console.log(e);
                     /*    $("#detalle_compra").append(e);
                         getProductos("newprod");*/
                    
