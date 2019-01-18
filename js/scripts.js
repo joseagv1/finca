@@ -892,6 +892,42 @@ function getListaMenu(){
                 
         });
 }
+function despachoRows(){
+        $("#detalle_despacho").html('');
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'despachoRows',menuid:$("#unidad_despacho option:selected").val()},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      
+                    $("#detalle_despacho").append(e);
+                    //getProductos("newprod");
+                   
+                });
+}
+
+function createDespacho(){
+        var compraObj = $("#despachoform").serializeArray();
+        console.log(compraObj);
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'createDespacho',compraObj:JSON.stringify(compraObj)},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      console.log(e);
+                    /*    $("#detalle_compra").append(e);
+                        getProductos("newprod");*/
+                   
+                }); 
+}
 
 $(document).ready(function($) {
         if($("#comprapage").length>0){
@@ -931,6 +967,9 @@ $(document).ready(function($) {
         }
         if($("#lista_menu").length > 0){
                 getListaMenu();
+        }
+        if($("#detalle_despacho").length > 0){
+                getUnidadProd('unidad_despacho');
         }
 });
 
