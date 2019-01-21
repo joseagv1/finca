@@ -14,8 +14,25 @@
       
     </tbody>
   </table>
-  <table class="table" id="tabla_detalle_lista" style="display:none;">
-  </table>
+  <div id="detalle_compra" class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">  
+            <h5 class="modal-title" id="exampleModalCenterTitle">Compra</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <table class="table" id="tabla_detalle_lista" >
+          </table>
+          <div class="modal-footer" id="botones_modificar" style="display:none;">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="updateCompra()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    <div>
+  </div>
   
 </div>
 

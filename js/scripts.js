@@ -372,6 +372,44 @@ function getListaCompra(){
             });
 }
 
+function editCompra(id,moneda){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'showfactura', id: id, moneda:moneda, opcion:2},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        $("#spanMoneda").html('<select class="custom-select" id="fact_moneda" onchange="showfactura(id)"></select>');                        
+                        getMonedaFactura("fact_moneda",id);
+                        $("#tabla_detalle_lista").html(e);
+                        getTotalFactura(id);                   
+                        //$("#tabla_detalle_lista").show();
+                        $('#detalle_compra').modal('show');
+                        $("#botones_modificar").show();
+                });
+}
+
+function updateCompra(){
+        var compraObj = $("#compraform").serializeArray();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'updateCompra',compraObj:JSON.stringify(compraObj)},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      console.log(e);
+                    /*    $("#detalle_compra").append(e);
+                        getProductos("newprod");*/
+                   
+                }); 
+}
+
 function getTotalFactura(id){
         $.ajax({
                 method: "POST",
@@ -389,10 +427,11 @@ function getTotalFactura(id){
 }
 
 function showfactura(id,moneda){
+        $("#botones_modificar").hide();
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
-                data:{action: 'showfactura', id: id, moneda:moneda},
+                data:{action: 'showfactura', id: id, moneda:moneda, opcion:1},
                 cache: false,
                 async: true,
                 type: 'POST'
@@ -402,7 +441,8 @@ function showfactura(id,moneda){
                         getMonedaFactura("fact_moneda",id);
                         $("#tabla_detalle_lista").html(e);
                         getTotalFactura(id);                   
-                        $("#tabla_detalle_lista").show();
+                        //$("#tabla_detalle_lista").show();
+                        $('#detalle_compra').modal('show');
                 });
 }
 
