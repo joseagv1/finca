@@ -339,21 +339,45 @@ function cargarListaProductos(){
 }
 
 function createCompra(){
-        var compraObj = $("#compraform").serializeArray();
-        $.ajax({
-                method: "POST",
-                url: 'process/process.php',
-                data:{action: 'createCompra',compraObj:JSON.stringify(compraObj)},
-                cache: false,
-                async: true,
-                type: 'POST'
-              })
-                .done(function( e ) {
-                      console.log(e);
-                    /*    $("#detalle_compra").append(e);
-                        getProductos("newprod");*/
-                   
-                }); 
+        var cantvaciototal=0;
+        $(".cant_prod").each(function(){
+                if($(this).val() == "" || $(this).val() == 0){
+                        cantvaciototal++;
+                }
+        });
+        var preciovaciototal=0;
+        $(".precio_prod").each(function(){
+                if($(this).val() == "" || $(this).val() == 0){
+                        preciovaciototal++;
+                }
+        });
+        var error=0;
+        if($(".cant_prod").length == cantvaciototal){
+                showNotify('Error: Ingrese cantidad mayor a 0 almenos algun producto','danger');
+                error = 1;
+        }
+        if($(".precio_prod").length == preciovaciototal){
+                showNotify('Error: Ingrese precio mayor a 0 almenos algun producto','danger');
+                error = 1;
+        }
+        if(error == 0){
+                var compraObj = $("#compraform").serializeArray();
+                $.ajax({
+                        method: "POST",
+                        url: 'process/process.php',
+                        data:{action: 'createCompra',compraObj:JSON.stringify(compraObj)},
+                        cache: false,
+                        async: true,
+                        type: 'POST'
+                })
+                        .done(function( e ) {
+                                //console.log(e);
+                                showNotify('Factura Ingresada','success');
+                                $(".compraRows").remove();
+                                compraRows();
+                                getMoneda("select_moneda");
+                        }); 
+        }
 }
 
 function getListaCompra(){
@@ -382,7 +406,7 @@ function editCompra(id,moneda){
                 type: 'POST'
               })
                 .done(function( e ) {
-                        $("#spanMoneda").html('<select class="custom-select" id="fact_moneda" onchange="showfactura(id)"></select>');                        
+                        //$("#spanMoneda").html('<select class="custom-select" id="fact_moneda" onchange="showfactura(id)"></select>');                        
                         getMonedaFactura("fact_moneda",id);
                         $("#tabla_detalle_lista").html(e);
                         getTotalFactura(id);                   
@@ -390,6 +414,28 @@ function editCompra(id,moneda){
                         $('#detalle_compra').modal('show');
                         $("#botones_modificar").show();
                 });
+}
+
+function validarUpdateCompra(){
+        var compraObj = $("#compraform").serializeArray();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'validarUpdateCompra',compraObj:JSON.stringify(compraObj)},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      console.log(e);
+                     if(e==0){
+                             alert("Cantidad errada");
+                     }
+                     else{
+                        updateCompra();
+                     }
+                   
+                }); 
 }
 
 function updateCompra(){
@@ -404,8 +450,8 @@ function updateCompra(){
               })
                 .done(function( e ) {
                       console.log(e);
-                    /*    $("#detalle_compra").append(e);
-                        getProductos("newprod");*/
+                      $('#detalle_compra').modal('hide');
+                    
                    
                 }); 
 }
@@ -760,6 +806,7 @@ function getComedor(id){
                         var objJson = $.parseJSON(e);   
                         console.log(objJson.length);
                         var options="<option value=''>Seleccione Comedor</option>";
+                        options=options+"<option value='0'>Todos</option>";
                         for(i=0;i<objJson.length;i++){
                                 options=options+"<option value='"+objJson[i]['id']+"'>"+objJson[i]['nombre']+"</option>";
                         }

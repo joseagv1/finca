@@ -1,4 +1,4 @@
-<h1>Compras</h1>
+<h1>Orden De Pedido</h1>
 <table class="table" id="">
       <tr>
         <td>
@@ -18,6 +18,8 @@
       <tr>
         <th scope="col" >Producto</th>
         <th scope="col">Total Compra</th>
+        <th scope="col">Disponible Inventario</th>
+        <th scope="col">Diferencia</th>
       </tr>
     </thead>
   </table>

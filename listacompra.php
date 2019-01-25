@@ -27,7 +27,7 @@
           </table>
           <div class="modal-footer" id="botones_modificar" style="display:none;">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" onclick="updateCompra()">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick="validarUpdateCompra()">Guardar</button>
           </div>
         </div>
       </div>

@@ -126,7 +126,8 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="finca.php?action=reporte_comedor">Comedor</a>
               <a class="dropdown-item" href="finca.php?action=reporte_centro_costos">Centro de Costos</a>
-              <a class="dropdown-item" href="finca.php?action=reporte_compras">Compras</a>
+              <a class="dropdown-item" href="finca.php?action=reporte_compras">Orden de Pedidos</a>
+              <a class="dropdown-item" href="finca.php?action=reporte_inventario">Inventario</a>
             </div>
           </li>
         </ul>
