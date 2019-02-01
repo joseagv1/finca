@@ -1056,7 +1056,7 @@ $(document).ready(function($) {
                 getListaMenu();
         }
         if($("#detalle_despacho").length > 0){
-                getUnidadProd('unidad_despacho');
+                getComedor('unidad_despacho');
         }
 });
 
