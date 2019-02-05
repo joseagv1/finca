@@ -1016,6 +1016,23 @@ function createDespacho(){
                 }); 
 }
 
+function generarReporteinventario(){
+        //$("#reporte_inventario_detalle").html('');
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'generarReporteinventario'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        console.log(e);
+                        $("#reporte_inventario_detalle").append(e);
+                        $("#reporte_inventario_detalle").show();
+                }); 
+}
+
 $(document).ready(function($) {
         if($("#comprapage").length>0){
                 //getProductos("products");

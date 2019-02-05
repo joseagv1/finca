@@ -192,6 +192,9 @@
               case "listamenu":
               include_once "listamenu.php"; 
               break;
+              case "reporte_inventario":
+              include_once "reporte_inventario.php"; 
+              break;
             }
           }
         ?>
