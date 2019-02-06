@@ -5,11 +5,11 @@
         <select class="custom-select" name="comedor_id" id="comedor_id"></select>
         </td>  
       </tr>
-      <!-- <tr>
+      <<tr>
         <td>
-        <select class="custom-select" name="compra_id" id="compra_id"></select>
+        <select class="custom-select" name="categoria_id" id="categoria_id"></select>
         </td>  
-      </tr> -->
+      </tr>
   </table>
   <div  style="text-align:center; float:center;margin-bottom: 30px;"><button type="button" class="btn btn-primary" onclick="generarReporteCompras()">Generar</button></div>
   
@@ -23,3 +23,4 @@
       </tr>
     </thead>
   </table>
+  <input type="hidden" id="reporte_compras" name="reporte_compras" >

@@ -855,7 +855,7 @@ function generarReporteCompras(){
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
-                data:{action: 'generarReporteCompras', idcomedor:$("#comedor_id option:selected").val()},
+                data:{action: 'generarReporteCompras', idcomedor:$("#comedor_id option:selected").val(), idcategoria:$("#categoria_id option:selected").val()},
                 cache: false,
                 async: true,
                 type: 'POST'
@@ -1075,5 +1075,9 @@ $(document).ready(function($) {
         if($("#detalle_despacho").length > 0){
                 getComedor('unidad_despacho');
         }
+        if($("#reporte_compras").length > 0){
+                getCategorias("categoria_id");
+        }
+        
 });
 
