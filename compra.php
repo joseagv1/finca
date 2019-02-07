@@ -9,6 +9,7 @@
         <th scope="col">Fecha</th>
         <th scope="col">Forma Pago</th>
         <th scope="col">Nota</th>
+        <th scope="col">Tasa Cambio</th>
       </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
         <td><input type="date" class="form-control" name="fecha_fact"  required></td>
         <td><input type="text" class="form-control" name="forma_fact" placeholder="Ingrese Forma de pago" required></td>
         <td><input type="text" class="form-control" name="nota_fact" placeholder="Ingrese Nota" required></td>
+        <td><select class="custom-select" name="tasacompra" id="tasacompra"></select></td>
       </tr>
       <!-- <tr>
         <td colspan="2"><select class="custom-select" name="select_moneda" id="select_moneda" onchange="getTasa('select_moneda','tasa_compra')"></select></td>

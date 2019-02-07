@@ -493,7 +493,7 @@ function showfactura(id,moneda){
 }
 
 function getTasa(moneda_id,tasa_compra){
-        console.log(moneda_id);
+        //console.log(moneda_id);
         moneda_id = $("#"+moneda_id+" option:selected").val();
         $.ajax({
                 method: "POST",
@@ -506,6 +506,22 @@ function getTasa(moneda_id,tasa_compra){
                 .done(function( e ) {
                     
                         $("#"+tasa_compra).html(e);
+
+                })
+}
+
+function getTasaCompra(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getTasaCompra'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                    
+                        $("#"+id).html(e);
 
                 })
 }
@@ -1038,6 +1054,7 @@ $(document).ready(function($) {
                 //getProductos("products");
                 compraRows();
                 getMoneda("select_moneda");
+                getTasaCompra("tasacompra");
                 //cargarListaProductos();
         }
         if($("#lista_compra").length>0){

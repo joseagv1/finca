@@ -5,7 +5,7 @@
         <select class="custom-select" name="comedor_id" id="comedor_id"></select>
         </td>  
       </tr>
-      <<tr>
+      <tr>
         <td>
         <select class="custom-select" name="categoria_id" id="categoria_id"></select>
         </td>  
