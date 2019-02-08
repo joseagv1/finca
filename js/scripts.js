@@ -184,7 +184,8 @@ function createCategory(){
         $("#tipo_empaque").val('');
 }
 
-function showproductomodal(){
+function showproductomodal(reloadList){
+        $("#reloadList").val(0);
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
@@ -196,7 +197,9 @@ function showproductomodal(){
                 .done(function( e ) {
                     
                         $("#producto_empaque").html(e);
-                   
+                        if(reloadList==1){
+                                $("#reloadList").val(1);
+                        }
                 });
         $.ajax({
                 method: "POST",
@@ -239,6 +242,8 @@ function createProd(){
                 console.log(e);
                         if(e != 'Error'){
                         showNotify("Nuevo producto fue creada","success");
+                        if($("#reloadList").val()==1)
+                                compraRows();
                         $("#nuevo_prod").modal('hide');
                 } 
         });
@@ -300,6 +305,7 @@ function addcompraRow(){
 }
 
 function compraRows(){
+        $(".compraRows").remove();
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
@@ -360,6 +366,10 @@ function createCompra(){
                 showNotify('Error: Ingrese precio mayor a 0 almenos algun producto','danger');
                 error = 1;
         }
+        if($("#tasacompra option:selected").val() == ""){
+                showNotify('Error: Seleccione una tasa de cambio o cree una nueva','danger');
+                error = 1;
+        }
         if(error == 0){
                 var compraObj = $("#compraform").serializeArray();
                 $.ajax({
@@ -376,6 +386,7 @@ function createCompra(){
                                 $(".compraRows").remove();
                                 compraRows();
                                 getMoneda("select_moneda");
+                                getTasaCompra("tasacompra","");
                         }); 
         }
 }
@@ -510,7 +521,7 @@ function getTasa(moneda_id,tasa_compra){
                 })
 }
 
-function getTasaCompra(id){
+function getTasaCompra(id,preselecttasa){
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
@@ -522,7 +533,8 @@ function getTasaCompra(id){
                 .done(function( e ) {
                     
                         $("#"+id).html(e);
-
+                        if(preselecttasa!='')
+                                $('#'+id+' option[value="'+preselecttasa+'"]').prop('selected', true);
                 })
 }
 
@@ -540,6 +552,10 @@ function getMonedaFactura(id,fact_id){
                         $("#"+id).html(e);
 
                 });
+}
+
+function createTasaCambioCompra(){
+        showTasaCambioModal();
 }
 
 function showCrearMonedaModal(){
@@ -593,14 +609,19 @@ function createTasaCambio(){
                 data:{action: 'createTasaCambio',tasacambio:$("#tasacambio").val(),select_moneda1:$("#select_moneda1").val(),select_moneda2:$("#select_moneda2").val(),fecha_tasa:$("#fecha_tasa").val()},
                 cache: false,
                 async: true,
-                type: 'POST'
-                })
-                .done(function( e ) {
-                console.log(e);
-                        if(e != 'Error'){
-                        showNotify("Nuevo Tasa de cambio fue creada","success");
-                        $("#nuevaTasaCambio").modal('hide');
-                } 
+                type: 'POST',
+                complete: function( e ) {
+                        console.log(e.responseText);
+                                if(e != 'Error'){
+                                showNotify("Nuevo Tasa de cambio fue creada","success");
+                                $("#nuevaTasaCambio").modal('hide');
+                                if($("#preselecttasa").length && $("#tasacompra").length){
+                                        //alert(e.responseText);
+                                        getTasaCompra("tasacompra",e.responseText);
+                                       // $('#tasacompra option[value="'+e.responseText+'"]').prop('selected', true);
+                                }
+                        } 
+                }
         });
 }
 
@@ -1054,7 +1075,7 @@ $(document).ready(function($) {
                 //getProductos("products");
                 compraRows();
                 getMoneda("select_moneda");
-                getTasaCompra("tasacompra");
+                getTasaCompra("tasacompra","");
                 //cargarListaProductos();
         }
         if($("#lista_compra").length>0){

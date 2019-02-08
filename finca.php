@@ -91,7 +91,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item disabled" href="#">Productos</a>
-              <a class="dropdown-item" href="javascript:void(0);" onclick="showproductomodal()">Nuevo Producto</a>
+              <a class="dropdown-item" href="javascript:void(0);" onclick="showproductomodal(0)">Nuevo Producto</a>
               <a class="dropdown-item" href="#">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item disabled" href="#">Categorias</a>
@@ -236,6 +236,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary" onclick="createProd()">Guardar</button>
+            <input type="hidden" id="reloadList" name="reloadList" value="0">
           </div>
         </div>
       </div>
