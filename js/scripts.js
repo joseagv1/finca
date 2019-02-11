@@ -17,6 +17,17 @@ function toJSONString(formname) {
         return JSON.stringify( obj );
 }
 
+function validationForm(extraClass){
+        var error = 0;
+        jQuery(".required"+extraClass).filter( ":visible" ).filter(function(){return this.value}).removeClass("requireClass");
+        if(jQuery(".required"+extraClass).filter( ":visible" ).filter(function(){return !this.value}).length){
+                jQuery(".required"+extraClass).filter( ":visible" ).filter(function(){return !this.value}).addClass("requireClass");
+                jQuery(".required"+extraClass).filter( ":visible" ).filter(function(){ if(!this.value && jQuery(this).data("required")){ showNotify('Error: '+jQuery(this).data("required"),'danger'); } });
+                error = 1;
+        }
+        return error;
+}
+
 // Types: success,warning,danger,info
 
 function showNotify(messagePar,typePar){
@@ -218,39 +229,43 @@ function showproductomodal(reloadList){
 }
 
 function createProd(){
-        if($("#prod_name").val() == ""){
-                showNotify("Nombre de la categoria es obligatorio","danger");
-                return false;
+        var error=0;
+        error=validationForm(".form-producto");
+        if(!error){
+                /*if($("#prod_name").val() == ""){
+                        showNotify("Nombre de la categoria es obligatorio","danger");
+                        return false;
+                }
+                if($("#producto_categoria option:selected").val()==""){
+                        showNotify("Seleccione una categoria","danger");
+                        return false;
+                }
+                if($("#producto_empaque option:selected").val()==""){
+                        showNotify("Seleccione un empaque","danger");
+                        return false;
+                }*/
+                $.ajax({
+                        method: "POST",
+                        url: 'process/process.php',
+                        data:{action: 'createProd',prod_name:$("#prod_name").val(),producto_categoria:$("#producto_categoria").val(),producto_empaque:$("#producto_empaque").val(),prod_desc:$("#prod_desc").val(),cant_percapita:$("#cant_percapita").val()},
+                        cache: false,
+                        async: true,
+                        type: 'POST'
+                        })
+                        .done(function( e ) {
+                        console.log(e);
+                                if(e != 'Error'){
+                                showNotify("Nuevo producto fue creada","success");
+                                if($("#reloadList").val()==1)
+                                        compraRows();
+                                $("#nuevo_prod").modal('hide');
+                        } 
+                });
+                $("#prod_name").val('');
+                $("#producto_categoria").val('');
+                $("#producto_empaque").val('');
+                $("#prod_desc").val('');
         }
-        if($("#producto_categoria option:selected").val()==""){
-                showNotify("Seleccione una categoria","danger");
-                return false;
-        }
-        if($("#producto_empaque option:selected").val()==""){
-                showNotify("Seleccione un empaque","danger");
-                return false;
-        }
-        $.ajax({
-                method: "POST",
-                url: 'process/process.php',
-                data:{action: 'createProd',prod_name:$("#prod_name").val(),producto_categoria:$("#producto_categoria").val(),producto_empaque:$("#producto_empaque").val(),prod_desc:$("#prod_desc").val(),cant_percapita:$("#cant_percapita").val()},
-                cache: false,
-                async: true,
-                type: 'POST'
-                })
-                .done(function( e ) {
-                console.log(e);
-                        if(e != 'Error'){
-                        showNotify("Nuevo producto fue creada","success");
-                        if($("#reloadList").val()==1)
-                                compraRows();
-                        $("#nuevo_prod").modal('hide');
-                } 
-        });
-        $("#prod_name").val('');
-        $("#producto_categoria").val('');
-        $("#producto_empaque").val('');
-        $("#prod_desc").val('');
 }
 
 function getProductos(id){
@@ -345,6 +360,8 @@ function cargarListaProductos(){
 }
 
 function createCompra(){
+        var error=0;
+        error=validationForm("");
         var cantvaciototal=0;
         $(".cant_prod").each(function(){
                 if($(this).val() == "" || $(this).val() == 0){
@@ -357,7 +374,6 @@ function createCompra(){
                         preciovaciototal++;
                 }
         });
-        var error=0;
         if($(".cant_prod").length == cantvaciototal){
                 showNotify('Error: Ingrese cantidad mayor a 0 almenos algun producto','danger');
                 error = 1;
@@ -366,10 +382,10 @@ function createCompra(){
                 showNotify('Error: Ingrese precio mayor a 0 almenos algun producto','danger');
                 error = 1;
         }
-        if($("#tasacompra option:selected").val() == ""){
+        /*if($("#tasacompra option:selected").val() == ""){
                 showNotify('Error: Seleccione una tasa de cambio o cree una nueva','danger');
                 error = 1;
-        }
+        }*/
         if(error == 0){
                 var compraObj = $("#compraform").serializeArray();
                 $.ajax({
@@ -428,25 +444,28 @@ function editCompra(id,moneda){
 }
 
 function validarUpdateCompra(){
-        var compraObj = $("#compraform").serializeArray();
-        $.ajax({
-                method: "POST",
-                url: 'process/process.php',
-                data:{action: 'validarUpdateCompra',compraObj:JSON.stringify(compraObj)},
-                cache: false,
-                async: true,
-                type: 'POST'
-              })
-                .done(function( e ) {
-                      console.log(e);
-                     if(e==0){
-                             alert("Cantidad errada");
-                     }
-                     else{
-                        updateCompra();
-                     }
-                   
-                }); 
+        var error = validationForm(".form-editar-compra");
+        if(!error){
+                var compraObj = $("#compraform").serializeArray();
+                $.ajax({
+                        method: "POST",
+                        url: 'process/process.php',
+                        data:{action: 'validarUpdateCompra',compraObj:JSON.stringify(compraObj)},
+                        cache: false,
+                        async: true,
+                        type: 'POST'
+                })
+                        .done(function( e ) {
+                        console.log(e);
+                        if(e==0){
+                                alert("Cantidad errada");
+                        }
+                        else{
+                                updateCompra();
+                        }
+                        
+                        });
+        } 
 }
 
 function updateCompra(){
@@ -1035,22 +1054,25 @@ function despachoRows(){
 }
 
 function createDespacho(){
-        var compraObj = $("#despachoform").serializeArray();
-        console.log(compraObj);
-        $.ajax({
-                method: "POST",
-                url: 'process/process.php',
-                data:{action: 'createDespacho',compraObj:JSON.stringify(compraObj)},
-                cache: false,
-                async: true,
-                type: 'POST'
-              })
+        var error = validationForm("");
+        if(!error){
+                var compraObj = $("#despachoform").serializeArray();
+                //console.log(compraObj);
+                $.ajax({
+                        method: "POST",
+                        url: 'process/process.php',
+                        data:{action: 'createDespacho',compraObj:JSON.stringify(compraObj)},
+                        cache: false,
+                        async: true,
+                        type: 'POST'
+                })
                 .done(function( e ) {
-                      console.log(e);
-                    /*    $("#detalle_compra").append(e);
+                //console.log(e);
+                /*    $("#detalle_compra").append(e);
                         getProductos("newprod");*/
-                   
+                
                 }); 
+        }
 }
 
 function generarReporteinventario(){
@@ -1070,6 +1092,42 @@ function generarReporteinventario(){
                 }); 
 }
 
+function getListaDespacho(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaDespacho'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+        .done(function( e ) {
+                
+                $("#lista_despacho").html(e);
+                
+        });
+}
+
+function editDespacho(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'showdespacho', id: id, opcion:2},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        //$("#spanMoneda").html('<select class="custom-select" id="fact_moneda" onchange="showfactura(id)"></select>');                        
+                        getMonedaFactura("fact_moneda",id);
+                        $("#tabla_detalle_lista").html(e);
+                        getTotalFactura(id);                   
+                        //$("#tabla_detalle_lista").show();
+                        $('#detalle_compra').modal('show');
+                        $("#botones_modificar").show();
+                });
+}
+
 $(document).ready(function($) {
         if($("#comprapage").length>0){
                 //getProductos("products");
@@ -1080,6 +1138,9 @@ $(document).ready(function($) {
         }
         if($("#lista_compra").length>0){
                 getListaCompra();
+        }
+        if($("#lista_despacho").length>0){
+                getListaDespacho();
         }
         if($("#unidad_prod").length>0){
                 getUnidadProd('unidad_prod');

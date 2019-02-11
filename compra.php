@@ -1,5 +1,5 @@
 
-<h1>Costo</h1>
+<h1>Compra</h1>
 <form id="compraform" >
 <div class="form-group">
   <table class="table">
@@ -14,11 +14,11 @@
     </thead>
     <tbody>
       <tr>
-        <th scope="row"><input type="text" class="form-control" name="num_fact" placeholder="Ingrese Numero Factura" required></th>
-        <td><input type="date" class="form-control" name="fecha_fact"  required></td>
-        <td><input type="text" class="form-control" name="forma_fact" placeholder="Ingrese Forma de pago" required></td>
-        <td><input type="text" class="form-control" name="nota_fact" placeholder="Ingrese Nota" required></td>
-        <td><select class="custom-select" name="tasacompra" id="tasacompra"></select></td>
+        <th scope="row"><input type="text" class="form-control required" name="num_fact" placeholder="Ingrese Numero Factura" data-required="Ingrese Un numero de Factura"></th>
+        <td><input type="date" class="form-control required" name="fecha_fact" data-required="Ingrese una fecha"></td>
+        <td><input type="text" class="form-control " name="forma_fact" placeholder="Ingrese Forma de pago" ></td>
+        <td><input type="text" class="form-control " name="nota_fact" placeholder="Ingrese Nota" ></td>
+        <td><select class="custom-select required" name="tasacompra" id="tasacompra" data-required="Seleccione una tasa de cambio"></select></td>
       </tr>
       <!-- <tr>
         <td colspan="2"><select class="custom-select" name="select_moneda" id="select_moneda" onchange="getTasa('select_moneda','tasa_compra')"></select></td>
@@ -50,8 +50,8 @@
             </select>
           </div>
         </th>
-        <td><input type="text" class="form-control cant_prod" name="cant_prod"  required></td>
-        <td><input type="text" class="form-control precio_prod" name="precio_prod" required> </td>
+        <td><input type="text" class="form-control cant_prod" name="cant_prod"  ></td>
+        <td><input type="text" class="form-control precio_prod" name="precio_prod" > </td>
       </tr> -->
     </tbody>
   </table>

@@ -10,8 +10,8 @@
     </thead>
     <tbody>
       <tr>
-        <th scope="row"><select class="custom-select" name="unidad_despacho" id="unidad_despacho" onchange="despachoRows()"><option>Seleccione una Unidad</option></select></th>
-        <td><input type="date" class="form-control" name="fecha_despacho"  required></td>
+        <th scope="row"><select class="custom-select required" name="unidad_despacho" id="unidad_despacho" data-required="Seleccione una Unidad" onchange="despachoRows()"><option>Seleccione una Unidad</option></select></th>
+        <td><input type="date" class="form-control required" name="fecha_despacho" data-required="Ingrese una Fecha"></td>
       </tr>
     </tbody>
   </table>

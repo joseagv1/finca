@@ -16,6 +16,7 @@
     <!-- Custom styles for this template -->
     <link href="css/starter-template.css" rel="stylesheet">
     <link href="css/open-iconic-bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     
   </head>
 
@@ -58,7 +59,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="finca.php?action=despacho">Nuevo Despacho</a>
-              <a class="dropdown-item" href="finca.php?action=listacompra">Consultar</a>
+              <a class="dropdown-item" href="finca.php?action=listadespacho">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#">Something else here</a>
             </div>
@@ -181,19 +182,22 @@
                 include_once "reporte_comedor.php"; 
               break;
               case "reporte_centro_costos":
-              include_once "reporte_centro_costos.php"; 
+                include_once "reporte_centro_costos.php"; 
               break;
               case "reporte_compras":
               include_once "reporte_compras.php"; 
               break;
               case "listaCostoUnidad":
-              include_once "listacostounidad.php"; 
+                include_once "listacostounidad.php"; 
               break;
               case "listamenu":
-              include_once "listamenu.php"; 
+                include_once "listamenu.php"; 
               break;
               case "reporte_inventario":
-              include_once "reporte_inventario.php"; 
+                include_once "reporte_inventario.php"; 
+              break;
+              case "listadespacho":
+                include_once "listadespacho.php"; 
               break;
             }
           }
@@ -214,23 +218,23 @@
           <div class="modal-body">
           <div class="form-group">
             <label for="prodLabel">Nombre</label>
-            <input type="text" class="form-control" id="prod_name" placeholder="Ingrese Nombre Producto">
+            <input type="text" class="form-control form-producto required" id="prod_name" placeholder="Ingrese Nombre Producto" data-required="Ingrese Nombre Producto">
             <label for="prodLabel">Descripcion</label>
             <input type="text" class="form-control" id="prod_desc" placeholder="Ingrese Descripcion del Producto">
             <label for="prodLabel">Categoria</label>
             <div class="input-group mb-3">
-              <select class="custom-select" id="producto_categoria">
+              <select class="custom-select form-producto required" id="producto_categoria" data-required="Seleccione una categoria">
                 <option selected>Seleccione...</option>
               </select>
             </div>
             <label for="prodLabel">Empaque</label>
             <div class="input-group mb-3">
-              <select class="custom-select" id="producto_empaque">
+              <select class="custom-select form-producto required" id="producto_empaque" data-required="Seleccione un empaque">
                 <option selected>Seleccione...</option>
               </select>
             </div>
-            <label for="prodLabel">Cantidad por persona</label>
-            <input type="text" class="form-control" id="cant_percapita" placeholder="Ingrese de Producto por persona">
+            <label for="prodLabel required">Cantidad por persona</label>
+            <input type="text" class="form-control form-producto required" id="cant_percapita" placeholder="Ingrese cantidad por persona" data-required="Ingrese cantidad por persona">
           </div>
           </div>
           <div class="modal-footer">
