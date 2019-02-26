@@ -1128,6 +1128,49 @@ function editDespacho(id){
                 });
 }
 
+function validarUpdateDespacho(){
+        var error = validationForm(".form-editar-despacho");
+        if(!error){
+                var despachoObj = $("#despachoform").serializeArray();
+                $.ajax({
+                        method: "POST",
+                        url: 'process/process.php',
+                        data:{action: 'validarUpdateDespacho',despachoObj:JSON.stringify(despachoObj)},
+                        cache: false,
+                        async: true,
+                        type: 'POST'
+                })
+                        .done(function( e ) {
+                        console.log(e);
+                        if(e==0){
+                                alert("Cantidad errada");
+                        }
+                        else{
+                                updateDespacho();
+                        }
+                        
+                        });
+        } 
+}
+
+function updateDespacho(){
+        var despachoObj = $("#despachoform").serializeArray();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'updateDespacho',despachoObj:JSON.stringify(despachoObj)},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                      console.log(e);
+                      $('#detalle_compra').modal('hide');
+                    
+                   
+                }); 
+}
+
 $(document).ready(function($) {
         if($("#comprapage").length>0){
                 //getProductos("products");

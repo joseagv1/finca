@@ -1,6 +1,6 @@
 
 <h1>Despachos</h1>
-<form id="compraform" >
+<form id="despachoform" >
 <div class="form-group">
   <table class="table">
     <thead class="thead-dark">
@@ -26,7 +26,7 @@
           </table>
           <div class="modal-footer" id="botones_modificar" style="display:none;">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary" onclick="validarUpdateCompra()">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick="validarUpdateDespacho()">Guardar</button>
           </div>
         </div>
       </div>
