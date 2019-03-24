@@ -197,6 +197,10 @@ function createCategory(){
 
 function showproductomodal(reloadList){
         $("#reloadList").val(0);
+        $("#editProdid").val(0);
+        $("#prod_name").val("");
+        $("#prod_desc").val("");        
+        $("#cant_percapita").val("");
         $.ajax({
                 method: "POST",
                 url: 'process/process.php',
@@ -247,7 +251,7 @@ function createProd(){
                 $.ajax({
                         method: "POST",
                         url: 'process/process.php',
-                        data:{action: 'createProd',prod_name:$("#prod_name").val(),producto_categoria:$("#producto_categoria").val(),producto_empaque:$("#producto_empaque").val(),prod_desc:$("#prod_desc").val(),cant_percapita:$("#cant_percapita").val()},
+                        data:{action: 'createProd',prodid: $("#editProdid").val(),prod_name:$("#prod_name").val(),producto_categoria:$("#producto_categoria").val(),producto_empaque:$("#producto_empaque").val(),prod_desc:$("#prod_desc").val(),cant_percapita:$("#cant_percapita").val()},
                         cache: false,
                         async: true,
                         type: 'POST'
@@ -255,7 +259,7 @@ function createProd(){
                         .done(function( e ) {
                         console.log(e);
                                 if(e != 'Error'){
-                                showNotify("Nuevo producto fue creada","success");
+                                showNotify("Nuevo producto fue creado","success");
                                 if($("#reloadList").val()==1)
                                         compraRows();
                                 $("#nuevo_prod").modal('hide');
@@ -265,6 +269,8 @@ function createProd(){
                 $("#producto_categoria").val('');
                 $("#producto_empaque").val('');
                 $("#prod_desc").val('');
+                //if($("#editProdid").val()!=0)
+                        window.href="finca.php?action=listaproducto";
         }
 }
 
@@ -283,6 +289,60 @@ function getProductos(id){
                     $("."+id).removeClass( id );
                
             });
+}
+
+function editProducto(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getCategorias'},
+                cache: false,
+                async: true,
+                type: 'POST'
+                })
+                .done(function( e ) {
+                        
+                        $("#producto_categoria").html(e);
+                        
+                });
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getProductoPorId', id: id},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);
+                        //showproductomodal(0);
+                        $("#prod_name").val(objJson[0]["nombre"]);
+                        $("#prod_desc").val(objJson[0]["descripcion"]);
+                        $("#producto_categoria").val(objJson[0]["id_categoria"]);
+                        $("#cant_percapita").val(objJson[0]["cant_percapita"]);
+                        $("#editProdid").val(id);
+                        $('#nuevo_prod').modal('show');
+                });
+}
+
+function getListaProductos(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaProductos'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);
+                        var listProds = "";
+                        for(i=0;i<objJson.length;i++){
+                                tools ='<a href="javascript:void(0);" onclick="editProducto('+objJson[i]["id"]+')" class="addlinkprod"> <span class="oi oi-pencil"></span></a>&nbsp;&nbsp;<a href=""><span class="oi oi-trash"></span></a>';
+                                listProds = listProds + "<tr><td>"+tools+"</td><td>"+objJson[i]["nombre"]+"</td><td>"+objJson[i]["categoria"]+"</td><td>"+objJson[i]["cant_percapita"]+"</td></tr>";
+                        }
+                        $("#lista_producto").html(listProds);
+                });
 }
 
 function menuRows(){
@@ -944,10 +1004,17 @@ function crearCostoNomina(){
                         if(e != 'Error'){
                         showNotify("Nuevo costo por unidad fue creado","success");
                         $("#nuevo_costo_unidad").modal('hide');
+                        getListaUnidad();
                 } 
         });
         $("#unidadprodid").val('');
         $("#costo_nomina").val('');
+        
+}
+
+function showCostoUnidad(unidad_id){
+        $("#unidadprodid").val(unidad_id);
+        $("#nuevo_costo_unidad").modal('show');
 }
 
 function getDiasCompras(){
@@ -1128,6 +1195,26 @@ function editDespacho(id){
                 });
 }
 
+function showdespacho(id){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'showdespacho', id: id, opcion:1},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        //$("#spanMoneda").html('<select class="custom-select" id="fact_moneda" onchange="showfactura(id)"></select>');                        
+                        getMonedaFactura("fact_moneda",id);
+                        $("#tabla_detalle_lista").html(e);
+                        getTotalFactura(id);                   
+                        //$("#tabla_detalle_lista").show();
+                        $('#detalle_compra').modal('show');
+                        $("#botones_modificar").show();
+                });
+}
+
 function validarUpdateDespacho(){
         var error = validationForm(".form-editar-despacho");
         if(!error){
@@ -1219,6 +1306,9 @@ $(document).ready(function($) {
         }
         if($("#reporte_compras").length > 0){
                 getCategorias("categoria_id");
+        }
+        if($("#productoform").length > 0){
+                getListaProductos();
         }
         
 });

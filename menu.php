@@ -26,7 +26,7 @@
       <!--  -->
     </tbody>
   </table>   
-  <div  style="text-align:left; float:left;"><a href="javascript:void(0);" onclick="addMenuRow()" class="addlinkprod"> <span class="oi oi-plus" title="plus" aria-hidden="true"></span></a></div>
+  <!-- <div  style="text-align:left; float:left;"><a href="javascript:void(0);" onclick="addMenuRow()" class="addlinkprod"> <span class="oi oi-plus" title="plus" aria-hidden="true"></span></a></div> -->
   <div  style="text-align:right; float:right;"><button type="button" class="btn btn-primary" onclick="createMenu()">Guardar</button></div>
   <input type="hidden" id="menupage" name="menupage" value="">
 </div>

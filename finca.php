@@ -39,7 +39,7 @@
               <a class="dropdown-item" href="finca.php?action=listaunidad">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="javascript: void(0);" onclick="$('#nuevo_costo_unidad').modal('show')">Nuevo Costo Unidad</a>              
-              <a class="dropdown-item" href="finca.php?action=listaCostoUnidad">Consultar</a>
+              <!-- <a class="dropdown-item" href="finca.php?action=listaCostoUnidad">Consultar</a> -->
             </div>
           </li>
           <li class="nav-item dropdown">
@@ -93,7 +93,7 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item disabled" href="#">Productos</a>
               <a class="dropdown-item" href="javascript:void(0);" onclick="showproductomodal(0)">Nuevo Producto</a>
-              <a class="dropdown-item" href="#">Consultar</a>
+              <a class="dropdown-item" href="finca.php?action=listaproducto">Consultar</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item disabled" href="#">Categorias</a>
               <a class="dropdown-item" href="#" onclick="showcategoriamodal()">Nueva Categoria</a>
@@ -199,6 +199,9 @@
               case "listadespacho":
                 include_once "listadespacho.php"; 
               break;
+              case "listaproducto":
+                include_once "listaproducto.php"; 
+              break;
             }
           }
         ?>
@@ -227,12 +230,12 @@
                 <option selected>Seleccione...</option>
               </select>
             </div>
-            <label for="prodLabel">Empaque</label>
+            <!-- <label for="prodLabel">Empaque</label>
             <div class="input-group mb-3">
               <select class="custom-select form-producto required" id="producto_empaque" data-required="Seleccione un empaque">
                 <option selected>Seleccione...</option>
               </select>
-            </div>
+            </div> -->
             <label for="prodLabel required">Cantidad por persona</label>
             <input type="text" class="form-control form-producto required" id="cant_percapita" placeholder="Ingrese cantidad por persona" data-required="Ingrese cantidad por persona">
           </div>
@@ -241,6 +244,7 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary" onclick="createProd()">Guardar</button>
             <input type="hidden" id="reloadList" name="reloadList" value="0">
+            <input type="hidden" id="editProdid" name="editProdid" value="0">
           </div>
         </div>
       </div>
