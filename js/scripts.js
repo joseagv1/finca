@@ -151,7 +151,7 @@ function createEmpaque(){
 
 
 function showcategoriamodal(){
-        $.ajax({
+        /*$.ajax({
                 method: "POST",
                 url: 'process/process.php',
                 data:{action: 'getEmpaque'},
@@ -163,7 +163,7 @@ function showcategoriamodal(){
                     
                         $("#tipo_empaque").html(e);
                    
-                });
+                });*/
         $('#nueva_categoria').modal('show');
 }
 
@@ -263,6 +263,9 @@ function createProd(){
                                 if($("#reloadList").val()==1)
                                         compraRows();
                                 $("#nuevo_prod").modal('hide');
+                                if($("#productoform").length > 0){
+                                        getListaProductos();
+                                }
                         } 
                 });
                 $("#prod_name").val('');
@@ -270,7 +273,7 @@ function createProd(){
                 $("#producto_empaque").val('');
                 $("#prod_desc").val('');
                 //if($("#editProdid").val()!=0)
-                        window.href="finca.php?action=listaproducto";
+                        
         }
 }
 
@@ -1258,6 +1261,44 @@ function updateDespacho(){
                 }); 
 }
 
+function getListaCategorias(){
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaCategorias'},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);
+                        var listProds = "";
+                        for(i=0;i<objJson.length;i++){
+                                tools ='<a href="javascript:void(0);" onclick="editCategoria('+objJson[i]["id"]+')" class="addlinkprod"> <span class="oi oi-pencil"></span></a>&nbsp;&nbsp;<a href=""><span class="oi oi-trash"></span></a>';
+                                listProds = listProds + "<tr><td>"+tools+"</td><td>"+objJson[i]["nombre"]+"</td></tr>";
+                        }
+                        $("#lista_categoria").html(listProds);
+                });
+}
+
+function editCategoria(id){
+        showcategoriamodal();
+        $.ajax({
+                method: "POST",
+                url: 'process/process.php',
+                data:{action: 'getListaCategorias',id: id},
+                cache: false,
+                async: true,
+                type: 'POST'
+              })
+                .done(function( e ) {
+                        var objJson = $.parseJSON(e);
+                        $("#category_nomb").val(objJson[0].nombre);
+                        $("#category_desc").val(objJson[0].descripcion);
+                        $("#edit_categoria_id").val(id);
+                });
+}
+
 $(document).ready(function($) {
         if($("#comprapage").length>0){
                 //getProductos("products");
@@ -1309,6 +1350,9 @@ $(document).ready(function($) {
         }
         if($("#productoform").length > 0){
                 getListaProductos();
+        }
+        if($("#categoriaform").length > 0){
+                getListaCategorias();
         }
         
 });

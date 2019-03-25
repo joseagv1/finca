@@ -1313,5 +1313,19 @@
             }
             echo $ret;
         break;
+        case 'getListaCategorias':
+            $filter = "";
+            if(isset($_POST['id']) && $_POST['id'] != 0)
+                $filter = "WHERE id = ".$_POST['id'];
+            $query = "SELECT *
+                    FROM categoria AS cat 
+                    ".$filter."
+                    ORDER BY cat.nombre";
+            $statement = $connec->prepare($query);
+            $statement->execute();
+            $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $json = json_encode($results);
+            echo $json;
+        break;
     }
 ?>

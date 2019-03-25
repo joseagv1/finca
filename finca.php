@@ -97,7 +97,7 @@
               <div class="dropdown-divider"></div>
               <a class="dropdown-item disabled" href="#">Categorias</a>
               <a class="dropdown-item" href="#" onclick="showcategoriamodal()">Nueva Categoria</a>
-              <a class="dropdown-item" href="#">Consultar</a>
+              <a class="dropdown-item" href="finca.php?action=listaCategoria">Consultar</a>
               <!-- <div class="dropdown-divider"></div>
               <a class="dropdown-item disabled" href="#">Empaque</a>
               <a class="dropdown-item" href="#" onclick="showempaquemodal()">Nuevo Empaque</a>
@@ -201,6 +201,9 @@
               break;
               case "listaproducto":
                 include_once "listaproducto.php"; 
+              break;
+              case "listaCategoria":
+                include_once "listaCategoria.php";
               break;
             }
           }
@@ -326,6 +329,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary" onclick="createCategory()">Guardar</button>
+            <input type="hidden" id="edit_categoria_id" name="edit_categoria_id" value="0">
           </div>
         </div>
       </div>      
